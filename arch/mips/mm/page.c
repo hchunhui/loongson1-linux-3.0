@@ -658,3 +658,6 @@ void copy_page(void *to, void *from)
 }
 
 #endif /* CONFIG_SIBYTE_DMA_PAGEOPS */
+
+EXPORT_SYMBOL(copy_page);
+EXPORT_SYMBOL(clear_page);
