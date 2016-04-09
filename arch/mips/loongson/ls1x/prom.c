@@ -207,6 +207,7 @@ void __init prom_init(void)
 
 void __init prom_free_prom_memory(void)
 {
+	free_init_pages("prom memory", 0x280, 2 << 20);
 }
 
 void __init prom_putchar(char c)
