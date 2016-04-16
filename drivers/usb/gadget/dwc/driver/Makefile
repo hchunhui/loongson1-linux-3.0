@@ -22,7 +22,7 @@ EXTRA_CFLAGS   	+= $(CFI)
 EXTRA_CFLAGS	+= $(BUS_INTERFACE)
 EXTRA_CFLAGS	+= -DDWC_DEV_SRPCAP
 
-obj-y	:= dwc_otg.o lm.o
+obj-m	:= dwc_otg.o lm.o
 
 dwc_otg-objs	:= dwc_otg_driver.o dwc_otg_attr.o 
 dwc_otg-objs	+= dwc_otg_cil.o dwc_otg_cil_intr.o 

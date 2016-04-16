@@ -12,7 +12,7 @@ EXTRA_CFLAGS	+= -DDWC_CRYPTOLIB
 EXTRA_CFLAGS	+= -DDWC_NOTIFYLIB
 EXTRA_CFLAGS	+= -DDWC_UTFLIB
 
-obj-y			 := dwc_common_port_lib.o
+obj-m			 := dwc_common_port_lib.o
 dwc_common_port_lib-objs := dwc_cc.o dwc_modpow.o dwc_dh.o \
 			    dwc_crypto.o dwc_notifier.o \
 			    dwc_common_linux.o dwc_mem.o
