@@ -25,11 +25,6 @@ static LIST_HEAD(clocks);
 static DEFINE_MUTEX(clocks_mutex);
 static DEFINE_SPINLOCK(clock_lock);
 
-#ifdef	CONFIG_LS1A_MACH
-extern unsigned long cpu_clock_freq;
-extern unsigned long ls1x_bus_clock;
-#endif
-
 /* Minimum CLK support */
 enum {
 	DIV_ZERO, DIV_2 = 2, DIV_3, DIV_4, DIV_5, DIV_6, DIV_7,
@@ -151,11 +146,6 @@ static int cpu_clk_set_rate(struct clk *clk, unsigned long rate, int algo_id)
 	regval &= ~0x00000100;	//cpu_bypass 置0
 	__raw_writel(regval, LS1X_CLK_PLL_DIV);
 	udelay(2);
-#elif defined(CONFIG_LS1A_MACH)
-	regval = (ls1x_bus_clock / APB_CLK - 3) << 8;
-	regval |= 0x8888;
-	regval |= (loongson1_clockmod_table[i].index + 2);
-	__raw_writel(regval, LS1X_CLK_PLL_DIV);
 #endif
 
 	return 0;
@@ -245,11 +235,7 @@ static void cpu_clk_init(struct clk *clk)
 
 	pll = clk_get_rate(clk->parent);
 	ctrl = __raw_readl(LS1X_CLK_PLL_DIV);
-#if defined(CONFIG_LS1A_MACH)
-	/* 由于目前loongson 1A CPU读取0xbfe78030 PLL寄存器有问题，
-	   所以CPU的频率是通过PMON传进来的 */
-	clk->rate = cpu_clock_freq;
-#elif defined(CONFIG_LS1B_MACH)
+#if defined(CONFIG_LS1B_MACH)
 	clk->rate = pll / ((ctrl & DIV_CPU) >> DIV_CPU_SHIFT);
 #else
 	if (ctrl & DIV_CPU_SEL) {
@@ -271,11 +257,7 @@ static void ddr_clk_init(struct clk *clk)
 
 	pll = clk_get_rate(clk->parent);
 	ctrl = __raw_readl(LS1X_CLK_PLL_DIV);
-#if defined(CONFIG_LS1A_MACH)
-	/* 由于目前loongson 1A CPU读取0xbfe78030 PLL寄存器有问题，
-	   所以BUS(DDR)的频率是通过PMON传进来的 */
-	clk->rate = ls1x_bus_clock;
-#elif defined(CONFIG_LS1B_MACH)
+#if defined(CONFIG_LS1B_MACH)
 	clk->rate = pll / ((ctrl & DIV_DDR) >> DIV_DDR_SHIFT);
 #else
 	ctrl = __raw_readl(LS1X_CLK_PLL_FREQ) & 0x3;
