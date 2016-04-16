@@ -243,7 +243,7 @@ extern int dwc_otg_set_param_host_perio_tx_fifo_size(dwc_otg_core_if_t *
 extern int32_t dwc_otg_get_param_host_perio_tx_fifo_size(dwc_otg_core_if_t *
 							 core_if);
 #define dwc_param_host_perio_tx_fifo_size_default 512
-#define dwc_param_host_perio_tx_fifo_size_default 0
+//#define dwc_param_host_perio_tx_fifo_size_default 0
 
 /** The maximum transfer size supported in bytes.
  * 2047 to 65,535  (default 65,535)
