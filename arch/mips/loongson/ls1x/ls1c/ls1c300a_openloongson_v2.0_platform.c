@@ -131,7 +131,7 @@ void __init ls1x_serial_setup(void)
 	for (p = ls1x_serial8250_port; p->flags != 0; ++p)
 		p->uartclk = clk_get_rate(clk);
 
-#if 0
+#if 1
 	/* 设置复用关系(EJTAG) */
 	__raw_writel(__raw_readl(LS1X_CBUS_FIRST0) & (~0x0000003f), LS1X_CBUS_FIRST0);
 	__raw_writel(__raw_readl(LS1X_CBUS_SECOND0) & (~0x0000003f), LS1X_CBUS_SECOND0);
